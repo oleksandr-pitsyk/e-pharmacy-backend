@@ -15,11 +15,14 @@ import helmet from 'helmet';
 // Це означає, що доступ дозволений з будь-якого джерела.
 import cors from 'cors';
 
+// Імпорт та налаштування пакету для читання змінних оточення з файлу .env
+import 'dotenv/config';
+
+// Імпорт функції для підключення до бази даних MongoDB
+import { connectMongoDB } from './db/connectMongoDB.js';
+
 // Імпорт бібліотеки для парсера кук
 // === import cookieParser from 'cookie-parser';
-
-// Імпорт та налаштування пакету для читання змінних оточення з файлу .env
-// === import 'dotenv/config';
 
 // ! ================== ІМПОРТИ ДЛЯ SWAGGER
 // === import swaggerUi from 'swagger-ui-express';
@@ -28,9 +31,6 @@ import cors from 'cors';
 
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);
-
-// Імпорт функції для підключення до бази даних MongoDB
-// === import { connectMongoDB } from './db/connectMongoDB.js';
 
 // Імпорт middleware для логування HTTP-запитів
 import { logger } from './middleware/logger.js';
@@ -42,19 +42,22 @@ import { errorHandler } from './middleware/errorHandler.js';
 // Імпорт middleware для обробки помилок валідації
 // === import { errors } from 'celebrate';
 
+// =========================================================================
 // Імпорт роутерів з маршрутами
+// -------------------------------------------------------------------------
+import suppliers from './routes/suppliersRoutes.js';
 // import authRoutes from './routes/authRoutes.js';
 // import usersRoutes from './routes/usersRoutes.js';
-// import categories from './routes/categoriesRoutes.js';
+
 // import ingredients from './routes/ingredientsRoutes.js';
 // import recipes from './routes/recipesRoutes.js';
+// =========================================================================
 
 // Створення екземпляру Express-додатку
 const app = express();
 
 // Використовуємо значення з .env (process.env.PORT) або дефолтний порт 3000
-// const PORT = process.env.PORT ?? 3000;
-const PORT = 3000;
+const PORT = process.env.PORT ?? 3000;
 
 // =========================================================================
 // Глобальні middleware - застосовуються до всіх маршрутів і запитів, які приходять на сервер
@@ -77,7 +80,7 @@ app.use(
 // Дозволяє запити з будь-яких джерел
 app.use(
   cors({
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'], // дозволені HTTP-методи (за потреби)
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // дозволені HTTP-методи (за потреби)
     origin: '*', // дозволяє запити з будь-якого джерела (можна обмежити до конкретних доменів)
   }),
 );
@@ -99,8 +102,8 @@ app.use(
 // app.use(usersRoutes);
 
 // ===========================================================================================
-// Підключення роутера з маршрутом отримання списку категорій
-// app.use(categories);
+// Підключення роутера з маршрутами постачальників
+app.use(suppliers);
 
 // ===========================================================================================
 // Підключення роутера з маршрутом отримання списку інгредієнтів
@@ -137,7 +140,7 @@ app.use(errorHandler);
 
 // ===========================================================================================
 // Викликаємо функцію для підключення до MongoDB перед запуском сервера
-// await connectMongoDB();
+await connectMongoDB();
 // ===========================================================================================
 
 // ===========================================================================================
