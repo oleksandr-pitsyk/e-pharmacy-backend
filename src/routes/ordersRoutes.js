@@ -1,12 +1,12 @@
 // ==========================================================================================
-// Маршрути для постачальників - suppliers
+// Маршрути для замовлень - orders
 // ==========================================================================================
 
 // Express Router — об'єкт, який дозволяє групувати маршрути та їх обробники у логічні блоки.
 import { Router } from 'express';
 
 // Імпорт контролерів
-import { getSuppliers } from '../controllers/suppliersController.js';
+import { getOrders } from '../controllers/ordersController.js';
 
 // Імпорт middleware перевірки аутентифікації
 // import { authenticate } from '../middleware/authenticate.js';
@@ -15,9 +15,9 @@ import { getSuppliers } from '../controllers/suppliersController.js';
 const router = Router();
 
 // ===========================================================================================
-// GET /suppliers - Отримання списку постачальників
+// GET /orders - Отримання списку замовлень
 // -------------------------------------------------------------------------------------------
-router.get('/suppliers', getSuppliers);
+router.get('/orders', getOrders);
 // ===========================================================================================
 
 // Експорт роутера

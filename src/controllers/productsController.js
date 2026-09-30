@@ -1,5 +1,5 @@
 // ===========================================================================================
-// Контролери для роботи з клієнтами - customer
+// Контролери для роботи з продуктами - product
 // -------------------------------------------------------------------------------------------
 // Контролери — це функції, які відповідають за обробку запитів і формування відповіді.
 // ===========================================================================================
@@ -8,24 +8,24 @@
 // Він дозволяє створювати помилки з потрібним статусом і повідомленням.
 import createHttpError from 'http-errors';
 
-// Імпорт моделі Сustomer
-import { Customer } from '../models/customer.js';
+// Імпорт моделі Product
+import { Product } from '../models/product.js';
 
 // ===========================================================================================
-// GET /customers - Отримання списку клієнтів
+// GET /products - Отримання списку продуктів
 // ===========================================================================================
-export const getCustomers = async (req, res, next) => {
+export const getProducts = async (req, res, next) => {
   try {
-    // Пошук в колекції customers - сортування за іменем
-    const customers = await Customer.find().sort({ name: 1 });
+    // Пошук в колекції products - сортування за іменем
+    const products = await Product.find().sort({ name: 1 });
 
-    // Якщо клієнтів немає
-    if (!customers) {
-      throw createHttpError(404, 'Customers not found');
+    // Якщо продуктів немає
+    if (!products) {
+      throw createHttpError(404, 'Products not found');
     }
 
-    // Повертаємо дані зі списком клієнтів
-    res.status(200).json({ customers });
+    // Повертаємо дані зі списком продуктів
+    res.status(200).json({ products });
   } catch (error) {
     next(error);
   }

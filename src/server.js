@@ -47,11 +47,11 @@ import { errorHandler } from './middleware/errorHandler.js';
 // -------------------------------------------------------------------------
 import suppliers from './routes/suppliersRoutes.js';
 import customers from './routes/customersRoutes.js';
+import products from './routes/productsRoutes.js';
+import orders from './routes/ordersRoutes.js';
+
 // import authRoutes from './routes/authRoutes.js';
 // import usersRoutes from './routes/usersRoutes.js';
-
-// import ingredients from './routes/ingredientsRoutes.js';
-// import recipes from './routes/recipesRoutes.js';
 // =========================================================================
 
 // Створення екземпляру Express-додатку
@@ -111,12 +111,12 @@ app.use(suppliers);
 app.use(customers);
 
 // ===========================================================================================
-// Підключення роутера з маршрутом отримання списку інгредієнтів
-// app.use(ingredients);
+// Підключення роутера з маршрутами продуктів
+app.use(products);
 
 // ===========================================================================================
-// Підключення роутера з маршрутами для роботи з рецептами
-// app.use(recipes);
+// Підключення роутера з маршрутами замовлень
+app.use(orders);
 
 // ===========================================================================================
 // !!!! SWAGGER

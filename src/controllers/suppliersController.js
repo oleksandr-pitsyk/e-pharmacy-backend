@@ -16,7 +16,7 @@ import { Supplier } from '../models/supplier.js';
 // ===========================================================================================
 export const getSuppliers = async (req, res, next) => {
   try {
-    // Пошук в колекції Suppliers - сортування за іменем
+    // Пошук в колекції suppliers - сортування за іменем
     const suppliers = await Supplier.find().sort({ name: 1 });
 
     // Якщо постачальників немає
