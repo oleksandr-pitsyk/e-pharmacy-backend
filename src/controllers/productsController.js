@@ -16,7 +16,7 @@ import { Product } from '../models/product.js';
 // ===========================================================================================
 export const getProducts = async (req, res, next) => {
   try {
-    // Пошук в колекції products - сортування за іменем
+    // Пошук в колекції products - сортування за ім'ям
     const products = await Product.find().sort({ name: 1 });
 
     // Якщо продуктів немає

@@ -16,7 +16,7 @@ import { Supplier } from '../models/supplier.js';
 // ===========================================================================================
 export const getSuppliers = async (req, res, next) => {
   try {
-    // Пошук в колекції suppliers - сортування за іменем
+    // Пошук в колекції suppliers - сортування за ім'ям
     const suppliers = await Supplier.find().sort({ name: 1 });
 
     // Якщо постачальників немає
@@ -26,6 +26,95 @@ export const getSuppliers = async (req, res, next) => {
 
     // Повертаємо дані зі списком постачальників
     res.status(200).json({ suppliers });
+  } catch (error) {
+    next(error);
+  }
+};
+// ===========================================================================================
+
+// ===========================================================================================
+// GET /suppliers/:supplierId - Отримання інформації щодо одного постачальника за його Id
+// ===========================================================================================
+export const getSupplierById = async (req, res, next) => {
+  try {
+    // Деструктуризація параметра з Id
+    const { supplierId } = req.params;
+    // Пошук постачальника
+    const supplier = await Supplier.findOne({ _id: supplierId });
+    // Якщо постачальника не знайшли - помилка
+    if (!supplier) {
+      throw createHttpError(404, 'Supplier not found');
+    }
+
+    // Відповідь сервера зі статусом 200 та постачальником
+    res.status(200).json({ supplier });
+  } catch (error) {
+    next(error);
+  }
+};
+// ===========================================================================================
+
+// ===========================================================================================
+// POST /suppliers - Додавання нового постачальника
+// ===========================================================================================
+export const createSupplier = async (req, res, next) => {
+  try {
+    // Дані для створення постачальника приходять у тілі запиту (req.body) у форматі JSON
+    const newDataSupplier = req.body;
+    // Додавання нового постачальника в колекцію
+    const supplier = await Supplier.create(newDataSupplier);
+
+    // Після успішного створення повертаємо статус 201 (Created)
+    // та дані нового постачальника
+    res.status(201).json({ supplier });
+  } catch (error) {
+    next(error);
+  }
+};
+// ===========================================================================================
+
+// ===========================================================================================
+// PUT /suppliers/:supplierId - Редагування даних постачальника
+// ===========================================================================================
+export const updateSupplier = async (req, res, next) => {
+  try {
+    // Деструктуризація параметра з Id
+    const { supplierId } = req.params;
+    // Дані для редагування постачальника приходять у тілі запиту (req.body) у форматі JSON
+    const newDataSupplier = req.body;
+    // Пошук постачальника та редагування даних - повертаємо оновлений документ
+    const supplier = await Supplier.findOneAndUpdate({ _id: supplierId }, newDataSupplier, {
+      returnDocument: 'after',
+    });
+    // Якщо постачальника не знайшли - помилка
+    if (!supplier) {
+      throw createHttpError(404, 'Supplier not found');
+    }
+
+    // Відповідь сервера зі статусом 200 та постачальником
+    res.status(200).json({ supplier });
+  } catch (error) {
+    next(error);
+  }
+};
+// ===========================================================================================
+
+// ===========================================================================================
+// DELETE /suppliers/:supplierId - Видалення постачальника
+// ===========================================================================================
+export const deleteSupplier = async (req, res, next) => {
+  try {
+    // Деструктуризація параметра з Id
+    const { supplierId } = req.params;
+    // Пошук постачальника та видалення з бази - повертаємо видаленого постачальника
+    const supplier = await Supplier.findOneAndDelete({ _id: supplierId });
+    // Якщо постачальника не знайшли - помилка
+    if (!supplier) {
+      throw createHttpError(404, 'Supplier not found');
+    }
+
+    // Відповідь сервера зі статусом 200 та дані видаленого постачальника
+    res.status(200).json({ supplier });
   } catch (error) {
     next(error);
   }

@@ -16,7 +16,7 @@ import { Customer } from '../models/customer.js';
 // ===========================================================================================
 export const getCustomers = async (req, res, next) => {
   try {
-    // Пошук в колекції customers - сортування за іменем
+    // Пошук в колекції customers - сортування за ім'ям
     const customers = await Customer.find().sort({ name: 1 });
 
     // Якщо клієнтів немає

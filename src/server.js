@@ -40,15 +40,15 @@ import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 // Імпорт middleware для обробки помилок валідації
-// === import { errors } from 'celebrate';
+import { errors } from 'celebrate';
 
 // =========================================================================
 // Імпорт роутерів з маршрутами
 // -------------------------------------------------------------------------
-import suppliers from './routes/suppliersRoutes.js';
-import customers from './routes/customersRoutes.js';
-import products from './routes/productsRoutes.js';
-import orders from './routes/ordersRoutes.js';
+import suppliersRoutes from './routes/suppliersRoutes.js';
+import customersRoutes from './routes/customersRoutes.js';
+import productsRoutes from './routes/productsRoutes.js';
+import ordersRoutes from './routes/ordersRoutes.js';
 
 // import authRoutes from './routes/authRoutes.js';
 // import usersRoutes from './routes/usersRoutes.js';
@@ -71,6 +71,7 @@ app.use(helmet());
 
 // express.json() - для парсингу JSON. Воно автоматично парсить (розпаковує) тіло HTTP-запиту,
 // якщо воно надійшло у форматі JSON, і додає його у req.body.
+// app.use(express.json()) - без додаткових налаштувань
 app.use(
   express.json({
     type: ['application/json', 'application/vnd.api+json'], // Додаткові типи (за потреби)
@@ -104,19 +105,19 @@ app.use(
 
 // ===========================================================================================
 // Підключення роутера з маршрутами постачальників
-app.use(suppliers);
+app.use(suppliersRoutes);
 
 // ===========================================================================================
 // Підключення роутера з маршрутами клієнтів
-app.use(customers);
+app.use(customersRoutes);
 
 // ===========================================================================================
 // Підключення роутера з маршрутами продуктів
-app.use(products);
+app.use(productsRoutes);
 
 // ===========================================================================================
 // Підключення роутера з маршрутами замовлень
-app.use(orders);
+app.use(ordersRoutes);
 
 // ===========================================================================================
 // !!!! SWAGGER
@@ -134,7 +135,7 @@ app.use(notFoundHandler);
 // ===========================================================================================
 // Middleware - обробка помилок від celebrate (валідація)
 // ===========================================================================================
-// app.use(errors());
+app.use(errors());
 // ===========================================================================================
 
 // ===========================================================================================

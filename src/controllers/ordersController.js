@@ -16,7 +16,7 @@ import { Order } from '../models/order.js';
 // ===========================================================================================
 export const getOrders = async (req, res, next) => {
   try {
-    // Пошук в колекції orders - сортування за іменем
+    // Пошук в колекції orders - сортування за ім'ям
     const orders = await Order.find().sort({ name: 1 });
 
     // Якщо замовлень немає
